@@ -13,7 +13,7 @@ Quick Start
 
 Requires Python 3 (or PyPy 3 during training).
 
-Dependencies:
+Dependencies::
 
     pip3 install -r requirements.txt
 
