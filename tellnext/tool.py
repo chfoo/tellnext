@@ -76,13 +76,14 @@ def train(args, model, lines, lower_case=True):
 
     trigrams = tellnext.training.process_trigrams(lines, lower_case=lower_case)
 
-    for trigrams_group in tellnext.util.group(trigrams, size=10000):
+    for index, trigrams_group in enumerate(tellnext.util.group(trigrams, size=10000)):
         model.train(trigrams_group)
 
         count += len(trigrams_group)
         _logger.info('Processed %d trigrams', count)
 
-        if args.limit_model and model.store.count() > args.limit_model * 2:
+        if index % 100 == 0 and args.limit_model and \
+                model.store.count() > args.limit_model * 2:
             model.store.trim(args.limit_model)
 
     model.store.trim(args.limit_model)
