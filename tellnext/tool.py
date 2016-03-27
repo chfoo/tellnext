@@ -23,6 +23,7 @@ def main():
     train_parser = sub_parser.add_parser('train')
     train_parser.add_argument('file', nargs='+', type=argparse.FileType())
     train_parser.add_argument('--limit-model', default=100000)
+    train_parser.add_argument('--keep-case', action='store_true')
     train_parser.set_defaults(func=train_by_plain_text)
 
     train_by_twitter_parser = sub_parser.add_parser('train-twitter')
@@ -67,13 +68,13 @@ def train_by_twitter(args, model):
 
 def train_by_plain_text(args, model):
     for file in args.file:
-        train(args, model, file)
+        train(args, model, file, not args.keep_case)
 
 
-def train(args, model, lines):
+def train(args, model, lines, lower_case=True):
     count = 0
 
-    trigrams = tellnext.training.process_trigrams(lines)
+    trigrams = tellnext.training.process_trigrams(lines, lower_case=lower_case)
 
     for trigrams_group in tellnext.util.group(trigrams):
         model.train(trigrams_group)

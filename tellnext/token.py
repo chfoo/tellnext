@@ -21,14 +21,15 @@ def sentence_tokenize(text):
     return tuple(_en_punkt_sentence_tokenizer.tokenize(text))
 
 
-def prepare_tokens(sentence):
+def prepare_tokens(sentence, lower_case=True):
     def replacement(match):
         return match.group(2)[:2]
 
     # Strip repeating characters
     sentence = re.sub(r'(.)(\1{2,})', replacement, sentence)
 
-    sentence = sentence.lower()
+    if lower_case:
+        sentence = sentence.lower()
 
     words = tuple(rejoin_emoticons(_treeband_word_tokenizer.tokenize(sentence)))
 

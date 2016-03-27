@@ -77,12 +77,13 @@ def only_roman_chars(text):
     return all(is_latin(char) for char in text if char.isalpha())
 
 
-def process_trigrams(lines):
+def process_trigrams(lines, lower_case=True):
     for line in lines:
         sentences = tellnext.token.sentence_tokenize(line)
 
         for sentence in sentences:
-            words = tellnext.token.prepare_tokens(sentence)
+            words = tellnext.token.prepare_tokens(sentence,
+                                                  lower_case=lower_case)
 
             for trigram in tellnext.token.to_trigrams(words):
                 yield trigram
