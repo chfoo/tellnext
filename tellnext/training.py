@@ -1,3 +1,4 @@
+import logging
 import re
 import unicodedata
 
@@ -6,6 +7,9 @@ from langdetect.lang_detect_exception import LangDetectException
 
 import tellnext.util
 import tellnext.token
+
+
+_logger = logging.getLogger(__name__)
 
 
 def from_twitter_dump(dir_path, sample=None):
@@ -78,7 +82,10 @@ def only_roman_chars(text):
 
 
 def process_trigrams(lines, lower_case=True):
-    for line in lines:
+    for index, line in enumerate(lines):
+        if index % 10000 == 0:
+            _logger.info('Processed %d lines', index)
+
         sentences = tellnext.token.sentence_tokenize(line)
 
         for sentence in sentences:
