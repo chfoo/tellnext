@@ -76,7 +76,7 @@ def train(args, model, lines, lower_case=True):
 
     trigrams = tellnext.training.process_trigrams(lines, lower_case=lower_case)
 
-    for trigrams_group in tellnext.util.group(trigrams):
+    for trigrams_group in tellnext.util.group(trigrams, size=10000):
         model.train(trigrams_group)
 
         count += len(trigrams_group)
