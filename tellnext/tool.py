@@ -35,6 +35,7 @@ def main():
     generate_parser = sub_parser.add_parser('generate')
     generate_parser.add_argument('--lines', default=1, type=int)
     generate_parser.add_argument('--seed-word')
+    generate_parser.add_argument('--no-auto-punctuation', action='store_true')
     generate_parser.set_defaults(func=generate)
 
     next_word_parser = sub_parser.add_parser('next')
@@ -108,7 +109,8 @@ def generate(args, model):
         word_2 = None
 
     for dummy in range(args.lines):
-        line = generator.generate_sentence(word_1, word_2)
+        line = generator.generate_sentence(
+            word_1, word_2, final_punctuation=not args.no_auto_punctuation)
         print(line)
 
 
