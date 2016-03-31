@@ -65,6 +65,7 @@ class SQLiteStore(BaseStore):
         query = self.connection.execute(
             '''SELECT word_3, count FROM markov_model
             WHERE word_1 = ? AND word_2 = ?
+            ORDER BY count DESC LIMIT 1000
             ''',
             (word_1 or '', word_2 or '')
         )
