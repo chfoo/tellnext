@@ -15,7 +15,8 @@ _tweet_case_sensitive_tokenizer = nltk.tokenize.casual.TweetTokenizer(
 
 def to_trigrams(words):
     for trigram in nltk.trigrams(words, pad_left=True, pad_right=True):
-        yield trigram
+        if trigram != (None, None, None):
+            yield trigram
 
 
 def sentence_tokenize(text):
