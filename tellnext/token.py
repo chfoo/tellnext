@@ -21,6 +21,7 @@ def to_trigrams(words):
 
 def sentence_tokenize(text):
     text = unicodedata.normalize('NFKD', text).translate(NORM_TABLE)
+    text = remove_accents(text)
 
     return tuple(_en_punkt_sentence_tokenizer.tokenize(text))
 
@@ -48,3 +49,9 @@ def prepare_tokens(sentence, lower_case=True):
 
             if match:
                 yield match.group(1).strip('-')
+
+
+def remove_accents(input_str: str) -> str:
+    # http://stackoverflow.com/a/517974/1524507
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    return "".join([c for c in nfkd_form if not unicodedata.combining(c)])
